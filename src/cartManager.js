@@ -48,9 +48,23 @@ class CartManager {
 			let newCarts;
 
 			const product = await productManager.getProductsById(pid);
-			this.carts = this.carts.map((c) => {
+			this.carts = this.carts.map((c, i) => {
 				if (c.cid === cid) {
-					return c.products.push({ ...product, quantity: quantity });
+					if (c.products < 1) {
+						c.products.push({ ...product, quantity: quantity });
+					} else {
+						console.log('product', product);
+						if (c.products[0].id === product.id) {
+							console.log('whatatatsdhsaghkdsajhdksahdh', c.products[0].id);
+
+							c.products.push({ ...product, quantity: c.products[0].quantity + quantity });
+							const find = c.products.find((element) => element.id === pid);
+							const index = c.products.indexOf(find);
+							console.log(index, 'findddddd');
+							c.products.splice(index, 1);
+						}
+					}
+					console.log(c);
 				}
 				newCarts = this.carts;
 			});
@@ -69,13 +83,16 @@ const testOK = async () => {
 	await handleCart.createCart();
 	await handleCart.createCart();
 	await handleCart.createCart();
-	await handleCart.addProductToCart(0, 2, 1);
-	// await handleCart.addProductToCart(1, 1, 2);
-	// await handleCart.addProductToCart(2, 3, 3);
-	// await handleCart.addProductToCart(2, 3, 4);
+	await handleCart.addProductToCart(0, 1, 2);
+	await handleCart.addProductToCart(1, 2, 3);
+	await handleCart.addProductToCart(2, 3, 4);
+	await handleCart.addProductToCart(2, 3, 4);
+	await handleCart.addProductToCart(2, 3, 4);
+	await handleCart.addProductToCart(0, 1, 2);
+	await handleCart.addProductToCart(0, 1, 2);
 
 	console.log(await handleCart.getCarts(3));
-	console.log(await handleCart.getCartByCid(1));
+	// console.log(await handleCart.getCartByCid(1));
 };
 
 // testOK();

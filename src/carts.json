@@ -1,10 +1,6 @@
 [
   {
     "cid": 1,
-    "products": []
-  },
-  {
-    "cid": 2,
     "products": [
       {
         "title": "Agua",
@@ -15,12 +11,12 @@
         "stock": 1,
         "path": "./products.json",
         "id": 0,
-        "quantity": 1
+        "quantity": 10
       }
     ]
   },
   {
-    "cid": 3,
+    "cid": 2,
     "products": [
       {
         "title": "Agua",
@@ -31,7 +27,23 @@
         "stock": 8,
         "path": "./products.json",
         "id": 1,
-        "quantity": 4
+        "quantity": 5
+      }
+    ]
+  },
+  {
+    "cid": 3,
+    "products": [
+      {
+        "title": "Agua",
+        "description": "Muy Dudosa",
+        "price": 2,
+        "thumbnail": "http://google.com",
+        "code": "AGU03",
+        "stock": 15,
+        "path": "./products.json",
+        "id": 2,
+        "quantity": 12
       }
     ]
   }

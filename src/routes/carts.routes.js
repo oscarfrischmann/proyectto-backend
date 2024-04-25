@@ -17,16 +17,9 @@ router.get('/:cid', (req, res) => {
 
 router.post('/:pid/:cid/:quantity', (req, res) => {
 	let { pid, cid, quantity } = req.params;
-	cManager.getCartByCid(parseInt(cid)).then((oldData) => {
-		if (oldData.products.some((p) => p.id === +pid)) {
-			const productToUpdate = oldData.products.find((p) => {
-				p.id === parseInt(pid);
-			});
-			console.log(productToUpdate);
-			cManager.addProductToCart(parseInt(pid), parseInt(cid), parseInt(quantity) + 1);
-			res.status(200).send({ origin: 'addProductToCart post', payload: [] });
-		}
-	});
+
+	cManager.addProductToCart(parseInt(pid), parseInt(cid), parseInt(quantity));
+	res.status(200).send({ origin: 'addProductToCart post', payload: [] });
 });
 
 export default router;
