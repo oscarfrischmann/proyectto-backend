@@ -11,7 +11,18 @@
         "stock": 1,
         "path": "./products.json",
         "id": 0,
-        "quantity": 10
+        "quantity": 6
+      },
+      {
+        "title": "Agua",
+        "description": "Poco Fresca",
+        "price": 7,
+        "thumbnail": "http://google.com",
+        "code": "AGU02",
+        "stock": 8,
+        "path": "./products.json",
+        "id": 1,
+        "quantity": 2
       }
     ]
   },
@@ -27,7 +38,7 @@
         "stock": 8,
         "path": "./products.json",
         "id": 1,
-        "quantity": 5
+        "quantity": 3
       }
     ]
   },

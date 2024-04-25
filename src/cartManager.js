@@ -62,6 +62,8 @@ class CartManager {
 							const index = c.products.indexOf(find);
 							console.log(index, 'findddddd');
 							c.products.splice(index, 1);
+						} else {
+							c.products.push({ ...product, quantity: quantity });
 						}
 					}
 					console.log(c);
@@ -90,10 +92,11 @@ const testOK = async () => {
 	await handleCart.addProductToCart(2, 3, 4);
 	await handleCart.addProductToCart(0, 1, 2);
 	await handleCart.addProductToCart(0, 1, 2);
+	await handleCart.addProductToCart(1, 1, 2);
 
 	console.log(await handleCart.getCarts(3));
 	// console.log(await handleCart.getCartByCid(1));
 };
 
-// testOK();
+testOK();
 export default CartManager;
