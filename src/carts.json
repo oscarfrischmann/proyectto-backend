@@ -1,0 +1,38 @@
+[
+  {
+    "cid": 1,
+    "products": []
+  },
+  {
+    "cid": 2,
+    "products": [
+      {
+        "title": "Agua",
+        "description": "Fresca",
+        "price": 10,
+        "thumbnail": "http://google.com",
+        "code": "AGU01",
+        "stock": 1,
+        "path": "./products.json",
+        "id": 0,
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "cid": 3,
+    "products": [
+      {
+        "title": "Agua",
+        "description": "Poco Fresca",
+        "price": 7,
+        "thumbnail": "http://google.com",
+        "code": "AGU02",
+        "stock": 8,
+        "path": "./products.json",
+        "id": 1,
+        "quantity": 4
+      }
+    ]
+  }
+]
