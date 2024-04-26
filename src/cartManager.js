@@ -32,11 +32,13 @@ class CartManager {
 
 	async createCart() {
 		try {
+			this.carts = await this.getCarts();
+
 			const id = this.carts.length ? this.carts.length : 0;
 			const newCart = { cid: id + 1, products: [] };
 			this.carts.push(newCart);
 			await fs.promises.writeFile(this.file, JSON.stringify(this.carts)), 'utf-8';
-			return `Cart created with ID ${newCart.id}`;
+			return `Cart created with ID ${newCart.cid}`;
 		} catch (e) {
 			console.log('error creating cart::'.e);
 		}
@@ -71,9 +73,9 @@ class CartManager {
 const handleCart = new CartManager(`${config.DIRNAME}carts.json`);
 
 const testOK = async () => {
-	await handleCart.createCart();
-	await handleCart.createCart();
-	await handleCart.createCart();
+	// await handleCart.createCart();
+	// await handleCart.createCart();
+	// await handleCart.createCart();
 	await handleCart.addProductToCart(0, 1, 2);
 	// await handleCart.addProductToCart(0, 1, 2);
 	await handleCart.addProductToCart(1, 2, 3);

@@ -15,6 +15,12 @@ router.get('/:cid', (req, res) => {
 	});
 });
 
+router.post('/', (req, res) => {
+	cManager.createCart().then((data) => {
+		res.status(200).send({ origin: 'post createCart', payload: data });
+	});
+});
+
 router.post('/:pid/:cid/:quantity', (req, res) => {
 	let { pid, cid, quantity } = req.params;
 

@@ -21,6 +21,7 @@ app.use('/api/product/delete', productsRoutes);
 //*carts
 app.use('/api/cart', cartsRoutes);
 app.use('/api/cart/add', cartsRoutes);
+app.use('/api/cart/new', cartsRoutes);
 
 app.listen(config.PORT, () => {
 	console.log(`App activa en puerto ${config.PORT}`);
