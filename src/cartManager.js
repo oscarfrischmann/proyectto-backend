@@ -97,19 +97,24 @@ class CartManager {
 		try {
 			const carts = await this.getCarts(); /*.then((data) => (this.carts = data))*/
 			let productToAdd = await productManager.getProductsById(Number(pid));
+			let updatetCart;
 			carts.forEach((cart, i) => {
 				if (cart.cid === Number(cid)) {
+					// updatetCartIndex = cart.findIndex((p) => p.cid == cid);
+					// console.log(updatetCartIndex);
 					let index = cart.products.findIndex((p) => p.id == pid);
-					console.log(index);
 					if (index !== -1) {
 						cart.products[index].quantity += quantity;
 					} else {
 						cart.products.push({ ...productToAdd, quantity: quantity });
 					}
 				}
+				updatetCart = cart;
 			});
+			this.carts = carts;
+			console.log(this.carts);
 			await fs.promises.writeFile(this.file, JSON.stringify(carts));
-			return `Updated the cart with the id of "${cid}"`;
+			return updatetCart;
 		} catch (e) {
 			console.log('ERROR addProductToCart', e);
 		}
@@ -153,15 +158,17 @@ const testOK = async () => {
 	await handleCart.createCart();
 	await handleCart.createCart();
 	await handleCart.addProductToCart(0, 1, 2);
-	await handleCart.addProductToCart(0, 1, 2);
-	await handleCart.addProductToCart(1, 2, 3);
-	await handleCart.addProductToCart(1, 2, 3);
-	await handleCart.addProductToCart(2, 3, 4);
-	await handleCart.addProductToCart(2, 3, 4);
-	await handleCart.addProductToCart(2, 3, 4);
-	await handleCart.addProductToCart(1, 3, 4);
-	await handleCart.addProductToCart(1, 3, 4);
 	// await handleCart.addProductToCart(0, 1, 2);
+	await handleCart.addProductToCart(1, 2, 3);
+	// await handleCart.addProductToCart(1, 2, 3);
+	await handleCart.addProductToCart(2, 3, 4);
+	// await handleCart.addProductToCart(2, 3, 4);
+	// await handleCart.addProductToCart(2, 3, 4);
+	// await handleCart.addProductToCart(1, 3, 4);
+	// await handleCart.addProductToCart(1, 3, 4);
+	// await handleCart.addProductToCart(0, 1, 2);
+	// await handleCart.addProductToCart(2, 1, 2);
+	// await handleCart.addProductToCart(2, 1, 2);
 	// await handleCart.addProductToCart(0, 1, 2);
 	// await handleCart.addProductToCart(1, 1, 2);
 	// await handleCart.addProductToCart(1, 1, 2);
@@ -170,5 +177,5 @@ const testOK = async () => {
 	// console.log(await handleCart.getCartByCid(1));
 };
 
-testOK();
+// testOK();
 export default CartManager;

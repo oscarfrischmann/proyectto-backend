@@ -11,7 +11,7 @@
         "stock": 1,
         "path": "./products.json",
         "id": 0,
-        "quantity": 4
+        "quantity": 2
       }
     ]
   },
@@ -27,7 +27,7 @@
         "stock": 8,
         "path": "./products.json",
         "id": 1,
-        "quantity": 6
+        "quantity": 3
       }
     ]
   },
@@ -43,7 +43,7 @@
         "stock": 15,
         "path": "./products.json",
         "id": 2,
-        "quantity": 12
+        "quantity": 10
       },
       {
         "title": "Agua",
@@ -54,7 +54,7 @@
         "stock": 8,
         "path": "./products.json",
         "id": 1,
-        "quantity": 8
+        "quantity": 40
       }
     ]
   }

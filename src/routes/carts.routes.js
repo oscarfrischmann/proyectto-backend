@@ -18,8 +18,9 @@ router.get('/:cid', (req, res) => {
 router.post('/:pid/:cid/:quantity', (req, res) => {
 	let { pid, cid, quantity } = req.params;
 
-	cManager.addProductToCart(parseInt(pid), parseInt(cid), parseInt(quantity));
-	res.status(200).send({ origin: 'addProductToCart post', payload: [] });
+	cManager.addProductToCart(parseInt(pid), parseInt(cid), parseInt(quantity)).then((data) => {
+		res.status(200).send({ origin: 'addProductToCart post', payload: data });
+	});
 });
 
 export default router;
