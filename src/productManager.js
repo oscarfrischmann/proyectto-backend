@@ -8,20 +8,24 @@ class ProductManager {
 	}
 
 	async addProduct(product) {
-		this.products = await this.getProducts();
+		try {
+			this.products = await this.getProducts();
 
-		let lastIndexOfProducts = this.products.length;
-		product.id = lastIndexOfProducts++;
+			let lastIndexOfProducts = this.products.length;
+			product.id = lastIndexOfProducts++;
 
-		if (Object.values(product).length <= 6) {
-			console.log(`Incomplete Product: ${product.title} ${product.description} not added`);
-		} else {
-			if (this.products.some((code) => code === product.code)) {
-				console.log(`The product with this code already exists.\n`);
+			if (Object.values(product).length <= 6) {
+				console.log(`Incomplete Product: ${product.title} ${product.description} not added`);
 			} else {
-				this.products.push(product);
-				await fs.promises.writeFile(this.file, JSON.stringify(this.products)), 'utf-8';
+				if (this.products.some((code) => code === product.code)) {
+					console.log(`The product with this code already exists.\n`);
+				} else {
+					this.products.push(product);
+					await fs.promises.writeFile(this.file, JSON.stringify(this.products)), 'utf-8';
+				}
 			}
+		} catch (e) {
+			throw new Error('Error adding the product');
 		}
 	}
 
@@ -36,34 +40,41 @@ class ProductManager {
 	}
 
 	async getProductsById(id) {
-		this.products = await this.getProducts();
-		const result = await this.products.find((p) => p.id === id);
-		if (result) {
-			return this.products.find((p) => p.id === id);
-		} else {
-			return 'No such ID found';
+		try {
+			this.products = await this.getProducts();
+			const result = await this.products.find((p) => p.id === id);
+			if (result) {
+				return this.products.find((p) => p.id === id);
+			} else {
+				return 'No such ID found';
+			}
+		} catch (e) {
+			throw new Error('ID Not Found');
 		}
 	}
 
 	async updateProduct(id, updates) {
-		this.products = await this.getProducts();
+		try {
+			this.products = await this.getProducts();
 
-		const product = this.products.find((prod) => prod.id === id);
-		if (product) {
-			this.products = this.products.map((prod) => {
-				if (prod.id === id) {
-					return { ...prod, ...updates };
-				} else {
-					return prod;
-				}
-			});
-			await fs.promises.writeFile(this.file, JSON.stringify(this.products));
-			return `Updated the product with the id of "${id}"`;
-		} else {
-			console.log('Invalid product ID');
+			const product = this.products.find((prod) => prod.id === id);
+			if (product) {
+				this.products = this.products.map((prod) => {
+					if (prod.id === id) {
+						return { ...prod, ...updates };
+					} else {
+						return prod;
+					}
+				});
+				await fs.promises.writeFile(this.file, JSON.stringify(this.products));
+				return `Updated the product with the id of "${id}"`;
+			} else {
+				console.log('Invalid product ID');
+			}
+		} catch (e) {
+			console.error(e);
 		}
 	}
-
 	async deleteProduct(id) {
 		try {
 			this.products = await this.getProducts();

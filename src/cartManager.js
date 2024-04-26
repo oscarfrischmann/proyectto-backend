@@ -21,15 +21,18 @@ class CartManager {
 	}
 
 	async getCartByCid(cid) {
-		this.carts = await this.getCarts();
-		const result = await this.carts.find((cart) => cart.cid === cid);
-		if (result) {
-			return this.carts.find((c) => c.cid === cid);
-		} else {
-			return 'No such cart in the database.';
+		try {
+			this.carts = await this.getCarts();
+			const result = await this.carts.find((cart) => cart.cid === cid);
+			if (result) {
+				return this.carts.find((c) => c.cid === cid);
+			} else {
+				return 'No such cart in the database.';
+			}
+		} catch (e) {
+			console.log('Error getting cart by id', e);
 		}
 	}
-
 	async createCart() {
 		try {
 			this.carts = await this.getCarts();
@@ -76,11 +79,11 @@ const testOK = async () => {
 	// await handleCart.createCart();
 	// await handleCart.createCart();
 	// await handleCart.createCart();
-	await handleCart.addProductToCart(0, 1, 2);
 	// await handleCart.addProductToCart(0, 1, 2);
-	await handleCart.addProductToCart(1, 2, 3);
+	// await handleCart.addProductToCart(0, 1, 2);
 	// await handleCart.addProductToCart(1, 2, 3);
-	await handleCart.addProductToCart(2, 3, 4);
+	// await handleCart.addProductToCart(1, 2, 3);
+	// await handleCart.addProductToCart(2, 3, 4);
 	// await handleCart.addProductToCart(2, 3, 4);
 	// await handleCart.addProductToCart(2, 3, 4);
 	// await handleCart.addProductToCart(1, 3, 4);
@@ -91,10 +94,9 @@ const testOK = async () => {
 	// await handleCart.addProductToCart(0, 1, 2);
 	// await handleCart.addProductToCart(1, 1, 2);
 	// await handleCart.addProductToCart(1, 1, 2);
-
 	// console.log(await handleCart.getCarts(3));
 	// console.log(await handleCart.getCartByCid(1));
 };
 
-testOK();
+// testOK();
 export default CartManager;
