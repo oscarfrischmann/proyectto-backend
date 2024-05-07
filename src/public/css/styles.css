@@ -1,0 +1,40 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	background-color: black;
+	color: antiquewhite;
+}
+
+h1 {
+	color: #123456;
+	background-color: blueviolet;
+	width: fit-content;
+}
+
+.realtime__main {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+
+}
+
+.realtime__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.realtime__form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.realtime__btn {
+  background-color: darkcyan;
+  width: 150px;
+  padding: 5px;
+  border-radius: 15px;
+  border: none;
+}

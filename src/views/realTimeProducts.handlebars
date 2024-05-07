@@ -1,0 +1,71 @@
+<div class='realtime__title'>
+	<h1> Productos </h1>
+	<h2>en tiempo real</h2>
+</div>
+
+<section class='realtime__main'>
+
+	<div>
+		<ul>
+			{{#each products}}
+			<li>Product
+				{{id}}:
+				{{title}}
+				"{{description}}"
+				{{#if stock}}
+				(Hay stock)
+				{{else}}
+				(No hay producto disponible)
+				{{/if}}
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+
+	<form action='/realtimeproducts' method='post' class='realtime__form' id='realTimeProduct'>
+		Title:
+		<input type='text' id='title' name='title' /><br />
+		Description:
+		<input type='text' id='description' name='description' /><br />
+		Price:
+		<input type='number' id='price' name='price' /><br />
+		Code:
+		<input type='text' id='code' name='code' /><br />
+		Stock:
+		<input type='number' id='stock' name='stock' /><br />
+		thumbnail:
+		<input type='file' id='thumbnail' name='thumbnail' /><br />
+
+		<button type='submit' onclick='sendData()' class='realtime__btn'>Enviar</button>
+	</form>
+</section>
+
+<script src='/socket.io/socket.io.js'></script>
+<script>
+	const socketClient = io();
+	//get FORM
+	const formProduct = document.getElementById('realTimeProduct')
+	formProduct.addEventListener('click', getNewProduct());
+
+	socketClient.on('newMessageConfirmation', data => {
+		console.log(data);
+	});
+
+	function getNewProduct(e) {
+		e.preventDefault();
+		const title = formProduct['title'].value;
+		const description = formProduct['description'].value;
+		const price = formProduct['price'].value;
+		const code = formProduct['code'].value;
+		const stock = formProduct['stock'].value;
+
+		const newProduct = { title: title, description: description, price: price, code: code, stock: stock }
+		console.log(newProduct)
+		return newProduct;
+
+	}
+	const sendData = () => {
+		const product = getNewProduct();
+		socketClient.emit('newProduct', product);
+	}
+</script>

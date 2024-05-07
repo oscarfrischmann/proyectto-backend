@@ -13,8 +13,9 @@ router.get('/', (req, res) => {
 	});
 });
 
-router.get('/:pid', (req, res) => {
+router.get('/byID/:pid', (req, res) => {
 	const { pid } = req.params;
+	console.log(pid);
 	manager.getProductsById(parseInt(pid)).then((data) => {
 		res.status(200).send({ origin: 'getID', payload: data });
 	});
@@ -32,6 +33,7 @@ router.put('/:sid', (req, res) => {
 	const id = +sid;
 	const { description = '', title = '', stock, price } = req.body;
 	manager.getProductsById(id).then((oldData) => {
+		console.log(req.body);
 		if (oldData === 'No such ID found') {
 			res.status(400).send({ origin: 'put', payload: {}, error: 'ID inexistente' });
 		} else {
@@ -55,4 +57,5 @@ router.delete('/:sid', (req, res) => {
 			res.status(500).send(`No se puede borrar el producto con ID "${id}"`);
 		});
 });
+
 export default router;
