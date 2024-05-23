@@ -46,10 +46,12 @@
 	const socketClient = io();
 	//get FORM
 	const formProduct = document.getElementById('realTimeProduct')
-	formProduct.addEventListener('click', getNewProduct());
+	formProduct.addEventListener('submit', getNewProduct());
 
-	socketClient.on('newProductConfirmation', 'se agrego')
 
+	socketClient.on('newProductConfirmation', (data) => {
+		console.log('respuesta del websocket', data)
+	})
 	function getNewProduct(e) {
 		e.preventDefault();
 		const title = formProduct['title'].value;
@@ -59,14 +61,16 @@
 		const stock = formProduct['stock'].value;
 
 		const newProduct = { title: title, description: description, price: +price, code: code, stock: +stock }
+		console.log(newProduct)
 		if (newProduct) {
-			console.log(newProduct)
-			socketClient.emit('newProduct', { newProduct });
+			socketClient.emit('newProduct', newProduct);
+			console.log('Producto agregado')
 		}
+
+
 		return newProduct;
 
 	}
-
 
 
 </script>

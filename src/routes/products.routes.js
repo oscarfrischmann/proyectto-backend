@@ -27,11 +27,12 @@ router.post('/api/product', (req, res) => {
 	const newProduct = req.body;
 	const parse = { ...newProduct };
 	manager.addProduct(parse);
-	res.status(200).send({ origin: 'post', payload: parse });
-	socketServer.emit('newProductConfirmation', 'Se agregó nuevo producto');
+
 	socketServer.on('newProduct', (data) => {
-		console.log('hola');
+		console.log(data);
+		socketServer.emit('newProductConfirmation', data);
 	});
+	res.status(200).send({ origin: 'post', payload: parse });
 });
 
 router.put('/:sid', (req, res) => {

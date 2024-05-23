@@ -39,6 +39,6 @@ app.set('socketServer', socketServer);
 socketServer.on('connection', (client) => {
 	console.log(`Cliente conectado, id ${client.id} desde ${client.handshake.address}`);
 	client.on('newProduct', (data) => {
-		console.log(data);
+		socketServer.emit('newProductConfirmation', 'OK', data);
 	});
 });
