@@ -18,17 +18,10 @@ app.set('view engine', 'handlebars');
 
 //*products
 
-app.use('/api/products', productsRoutes);
+app.use('/', productsRoutes);
 app.use('/', viewsRoutes);
-// app.use('/api/product', productsRoutes);
 
-// app.use('/api/products/add', productsRoutes);
-
-// app.use('/api/product/update', productsRoutes);
-
-// app.use('/api/product/delete', productsRoutes);
 app.use('/static', express.static(`${config.DIRNAME}/public`));
-app.use('/realtimeproducts', viewsRoutes);
 
 //*carts
 
@@ -41,11 +34,11 @@ const httpServer = app.listen(config.PORT, () => {
 });
 
 const socketServer = new Server(httpServer);
+app.set('socketServer', socketServer);
 //escucho evento tipo conxión
-socketServer.on('connection', (socket) => {
-	console.log(`Cliente conectado, id ${socket.id} desde ${socket.handshake.address}`);
-	socket.on('newProduct', (data) => {
-		console.log('socket on app');
-		socket.emit('newProduct', data);
+socketServer.on('connection', (client) => {
+	console.log(`Cliente conectado, id ${client.id} desde ${client.handshake.address}`);
+	client.on('newProduct', (data) => {
+		console.log(data);
 	});
 });

@@ -9,7 +9,7 @@ const manager = new productManager(`${config.DIRNAME}/products.json`);
 
 //handlebars
 
-router.get('/', (req, res) => {
+router.get('/products', (req, res) => {
 	manager.getProducts().then((data) => {
 		const name = 'Oscar';
 		console.log(data);
@@ -25,10 +25,10 @@ router.get('/realtimeproducts', (req, res) => {
 	});
 });
 
-router.post('realtimeproducts', uploader.single('thumbnail'),(req, res) => {
+router.post('realtimeproducts', uploader.single('thumbnail'), (req, res) => {
 	console.log(req.body);
 	console.log(req.file);
-	const data = req.body
+	const data = req.body;
 	res.render('realtimeproducts', { origin: 'post', products: data });
 });
 

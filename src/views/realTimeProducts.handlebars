@@ -18,11 +18,12 @@
 				(No hay producto disponible)
 				{{/if}}
 			</li>
+			<button class="deleteItem">Borrar</button>
 			{{/each}}
 		</ul>
 	</div>
 
-	<form action='/realtimeproducts' method='post' class='realtime__form' id='realTimeProduct'>
+	<form action="/api/product" method='post' class='realtime__form' id='realTimeProduct'>
 		Title:
 		<input type='text' id='title' name='title' /><br />
 		Description:
@@ -36,7 +37,7 @@
 		thumbnail:
 		<input type='file' id='thumbnail' name='thumbnail' /><br />
 
-		<button type='submit' onclick='sendData()' class='realtime__btn'>Enviar</button>
+		<button type='submit' class='realtime__btn'>Enviar</button>
 	</form>
 </section>
 
@@ -47,9 +48,7 @@
 	const formProduct = document.getElementById('realTimeProduct')
 	formProduct.addEventListener('click', getNewProduct());
 
-	socketClient.on('newMessageConfirmation', data => {
-		console.log(data);
-	});
+	socketClient.on('newProductConfirmation', 'se agrego')
 
 	function getNewProduct(e) {
 		e.preventDefault();
@@ -59,13 +58,15 @@
 		const code = formProduct['code'].value;
 		const stock = formProduct['stock'].value;
 
-		const newProduct = { title: title, description: description, price: price, code: code, stock: stock }
-		console.log(newProduct)
+		const newProduct = { title: title, description: description, price: +price, code: code, stock: +stock }
+		if (newProduct) {
+			console.log(newProduct)
+			socketClient.emit('newProduct', { newProduct });
+		}
 		return newProduct;
 
 	}
-	const sendData = () => {
-		const product = getNewProduct();
-		socketClient.emit('newProduct', product);
-	}
+
+
+
 </script>

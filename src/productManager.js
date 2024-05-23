@@ -21,7 +21,9 @@ class ProductManager {
 					console.log(`The product with this code already exists.\n`);
 				} else {
 					this.products.push(product);
+
 					await fs.promises.writeFile(this.file, JSON.stringify(this.products)), 'utf-8';
+					console.log('added');
 				}
 			}
 		} catch (e) {
