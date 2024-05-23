@@ -52,6 +52,7 @@
 	socketClient.on('newProductConfirmation', (data) => {
 		console.log('respuesta del websocket', data)
 	})
+
 	function getNewProduct(e) {
 		e.preventDefault();
 		const title = formProduct['title'].value;
