@@ -38,7 +38,4 @@ app.set('socketServer', socketServer);
 //escucho evento tipo conxión
 socketServer.on('connection', (client) => {
 	console.log(`Cliente conectado, id ${client.id} desde ${client.handshake.address}`);
-	client.on('newProduct', (data) => {
-		socketServer.emit('newProductConfirmation', 'OK', data);
-	});
 });
