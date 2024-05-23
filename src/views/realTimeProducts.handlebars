@@ -48,6 +48,7 @@
 	const formProduct = document.getElementById('realTimeProduct')
 	formProduct.addEventListener('submit', getNewProduct());
 
+	let socketServer = req.app.get('socketServer');
 
 	socketClient.on('newProductConfirmation', (data) => {
 		console.log('respuesta del websocket', data)
@@ -64,8 +65,11 @@
 		const newProduct = { title: title, description: description, price: +price, code: code, stock: +stock }
 		console.log(newProduct)
 		if (newProduct) {
-			socketClient.emit('newProduct', newProduct);
-			console.log('Producto agregado')
+			socketServer.on('newProduct'()=> {
+				socketClient.emit('newProduct', newProduct);
+				console.log('Producto agregado')
+
+			})
 		}
 
 
