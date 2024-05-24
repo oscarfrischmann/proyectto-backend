@@ -6,7 +6,7 @@
 <section class='realtime__main'>
 
 	<div>
-		<ul>
+		<ul id="productList">
 			{{#each products}}
 			<li>Product
 				{{id}}:
@@ -18,22 +18,21 @@
 				(No hay producto disponible)
 				{{/if}}
 			</li>
-			<button class="deleteItem">Borrar</button>
 			{{/each}}
 		</ul>
 	</div>
 
 	<form action="/api/product" method='post' class='realtime__form' id='realTimeProduct'>
 		Title:
-		<input type='text' id='title' name='title' /><br />
+		<input type='text' id='title' name='title' required /><br />
 		Description:
-		<input type='text' id='description' name='description' /><br />
+		<input type='text' id='description' name='description' required /><br />
 		Price:
-		<input type='number' id='price' name='price' /><br />
+		<input type='number' id='price' name='price' required /><br />
 		Code:
-		<input type='text' id='code' name='code' /><br />
+		<input type='text' id='code' name='code' required /><br />
 		Stock:
-		<input type='number' id='stock' name='stock' /><br />
+		<input type='number' id='stock' name='stock' required /><br />
 		thumbnail:
 		<input type='file' id='thumbnail' name='thumbnail' /><br />
 
@@ -42,19 +41,20 @@
 </section>
 
 <script src='/socket.io/socket.io.js'></script>
-<script>
+<script defer type="module">
 	const socketClient = io();
 	//get FORM
 	const formProduct = document.getElementById('realTimeProduct')
 	formProduct.addEventListener('submit', getNewProduct());
 
-	let socketServer = req.app.get('socketServer');
 
 	socketClient.on('newProductConfirmation', (data) => {
 		console.log('respuesta del websocket', data)
+		const productList = document.getElementById('productList')
+		productList.innerHTML += `<li>NUEVO!!! ${data.title} "${data.description}"</li>`;
 	})
 
-	function getNewProduct(e) {
+	async function getNewProduct(e) {
 		e.preventDefault();
 		const title = formProduct['title'].value;
 		const description = formProduct['description'].value;
@@ -64,13 +64,12 @@
 
 		const newProduct = { title: title, description: description, price: +price, code: code, stock: +stock }
 		console.log(newProduct)
-		if (newProduct) {
-			socketServer.on('newProduct'()=> {
-				socketClient.emit('newProduct', newProduct);
-				console.log('Producto agregado')
+		await socketClient.emit('newProduct', newProduct);
 
-			})
-		}
+		socketClient.on('newProductConfirmation', () => {
+			console.log('Producto agregado')
+
+		})
 
 
 		return newProduct;
