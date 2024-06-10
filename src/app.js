@@ -1,10 +1,12 @@
 import express, { urlencoded } from 'express';
 import handlebars from 'express-handlebars';
+import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 import config from './config.js';
-import cartsRoutes from './routes/carts.routes.js';
-import productsRoutes from './routes/products.routes.js';
-import viewsRoutes from './routes/views.routes.js';
+import cartsRouter from './routes/carts.routes.js';
+import productsRouter from './routes/products.routes.js';
+import viewsRouter from './routes/views.routes.js';
+import usersRouter from './routes/users.routes.js';
 
 const app = express();
 app.use(express.json());
@@ -16,21 +18,23 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', `${config.DIRNAME}/views`);
 app.set('view engine', 'handlebars');
 
+//* views
+app.use('/', viewsRouter);
+
 //*products
 
-app.use('/', productsRoutes);
-app.use('/', viewsRoutes);
+app.use('/', productsRouter);
+app.use('/', usersRouter);
 
 app.use('/static', express.static(`${config.DIRNAME}/public`));
 
 //*carts
 
-app.use('/api/cart', cartsRoutes);
-app.use('/api/cart/add', cartsRoutes);
-app.use('/api/cart/new', cartsRoutes);
+app.use('/', cartsRouter);
 
-const httpServer = app.listen(config.PORT, () => {
-	console.log(`App activa en puerto ${config.PORT}`);
+const httpServer = app.listen(config.PORT, async () => {
+	await mongoose.connect(config.ATLAS_URI);
+	console.log(`App activa en puerto ${config.PORT} enlazada a DB remota`);
 });
 
 const socketServer = new Server(httpServer);

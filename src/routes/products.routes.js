@@ -1,9 +1,41 @@
 import { Router } from 'express';
 import config from '../config.js';
 import productManager from '../productManager.js';
+import productsModel from '../dao/models/products.model.js';
 
 const router = Router();
 
+//* ATLAS MONGOOSE
+router.get('/db/products', async (req, res) => {
+	try {
+		const productsDB = await productsModel.find().lean();
+		console.log(await productsModel.countDocuments());
+		res.status(200).send({ origin: 'get from DB', payload: productsDB });
+	} catch (e) {
+		res.status(500).send({ origin: 'get from DB', payload: null, error: e });
+	}
+});
+
+router.get('/db/products/one/:id', async (req, res) => {
+	try {
+		const productDB = await productsModel.findById(req.params.id);
+		res.status(200).send({ origin: 'get one from DB ', payload: productDB });
+	} catch (e) {
+		res.status(500).send({ origin: 'get from DB', payload: null, error: e });
+	}
+});
+
+router.post('/db/products', async (req, res) => {
+	try {
+		const newProduct = req.body;
+		await productsModel.create(newProduct);
+		res.status(200).send({ origin: 'post one from DB ', payload: newProduct });
+	} catch (e) {
+		res.status(500).send({ origin: 'post from DB', payload: null, error: e });
+	}
+});
+
+//* FILE SYSTEM
 const manager = new productManager(`${config.DIRNAME}/products.json`);
 
 router.get('/api/products', (req, res) => {
