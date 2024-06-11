@@ -38,4 +38,5 @@ router.get('/db/paginate/:role', async (req, res) => {
 		res.status(500).send({ origin: 'get paginate', payload: err });
 	}
 });
+
 export default router;

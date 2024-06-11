@@ -9,7 +9,7 @@
 		<ul id="productList">
 			{{#each products}}
 			<li>Product
-				{{id}}:
+				{{code}}:
 				{{title}}
 				"{{description}}"
 				{{#if stock}}
@@ -22,7 +22,7 @@
 		</ul>
 	</article>
 
-	<form action="/api/product" method='post' class='realtime__form' id='realTimeProduct'>
+	<form action="/db/products" method='post' class='realtime__form' id='realTimeProduct'>
 		Title:
 		<input type='text' id='title' name='title' required /><br />
 		Description:

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import config from '../config.js';
 import productManager from '../productManager.js';
 import { uploader } from '../uploader.js';
-
+import productsModel from '../dao/models/products.model.js';
 const router = Router();
 
 const manager = new productManager(`${config.DIRNAME}/products.json`);
@@ -18,11 +18,9 @@ router.get('/products', (req, res) => {
 });
 
 // websocket socket.io
-router.get('/realtimeproducts', (req, res) => {
-	manager.getProducts().then((data) => {
-		// console.log(data);
-		res.render('realTimeProducts', { products: data });
-	});
+router.get('/realtimeproducts', async (req, res) => {
+	const data = await productsModel.find().lean();
+	res.render('realTimeProducts', { products: data });
 });
 
 router.post('realtimeproducts', uploader.single('thumbnail'), (req, res) => {
