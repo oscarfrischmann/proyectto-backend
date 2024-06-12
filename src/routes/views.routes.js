@@ -9,12 +9,14 @@ const manager = new productManager(`${config.DIRNAME}/products.json`);
 
 //handlebars
 
-router.get('/products', (req, res) => {
-	manager.getProducts().then((data) => {
-		const name = 'Oscar';
-		console.log(data);
-		res.render('index', { products: data, name: name });
-	});
+router.get('/', async (req, res) => {
+	let data;
+	try {
+		data = await productsModel.find().lean();
+		res.render('index', { products: data });
+	} catch (err) {
+		res.render('index', { products: data });
+	}
 });
 
 // websocket socket.io
