@@ -20,7 +20,7 @@ router.get('/db/products', async (req, res) => {
 
 router.get('/db/products/:id', async (req, res) => {
 	try {
-		const productDB = await productsModel.findById(req.params.id);
+		const productDB = await productDBM.getById(req.params.id);
 		res.status(200).send({ origin: 'get one from DB ', payload: productDB });
 	} catch (e) {
 		res.status(500).send({ origin: 'get from DB', payload: null, error: e });
@@ -31,12 +31,35 @@ router.post('/db/products', async (req, res) => {
 	try {
 		const socketServer = req.app.get('socketServer');
 		const newProduct = req.body;
-		await productsModel.create(newProduct);
+		await productDBM.add(newProduct);
 		socketServer.emit('newProductConfirmation', newProduct);
 
 		res.status(200).send({ origin: 'post one from DB ', payload: newProduct });
 	} catch (e) {
 		res.status(500).send({ origin: 'post from DB', payload: null, error: e });
+	}
+});
+
+router.put('/db/products/:id', async (req, res) => {
+	try {
+		const id = req.params.id;
+		const update = req.body;
+		const options = { new: true };
+		const process = await productDBM.update(id, update, options);
+		res.status(200).send({ origin: 'PUT to DB', payload: process });
+	} catch (err) {
+		res.status(500).send({ origin: 'PUT to DB', payload: null, err });
+	}
+});
+
+router.delete('/db/products/:id', async (req, res) => {
+	try {
+		const id = req.params.id;
+		await productDBM.delete(id);
+		console.log(id, 'deleted');
+		res.status(200).send({ origin: 'delete from DB', payload: id });
+	} catch (err) {
+		res.status(500).send({ origin: 'delete from DB', payload: null, err });
 	}
 });
 

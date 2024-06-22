@@ -1,36 +1,46 @@
 import productsModel from './models/products.model.js';
 
 class ProductManager {
-	constructor() {
-		this.products = [];
-	}
+	constructor() {}
 
 	async getAll(limit) {
 		try {
 			return await productsModel.find().limit(parseInt(limit)).lean();
-		} catch (e) {
+		} catch (err) {
 			throw new Error('ID Not Found', e);
 		}
 	}
 
-	async getById() {
+	async getById(id) {
 		try {
-		} catch (e) {}
+			return await productsModel.findById(id).lean();
+		} catch (err) {
+			throw new Error('get by id', err);
+		}
 	}
 
-	async add() {
+	async add(newProduct) {
 		try {
-		} catch (e) {}
+			return await productsModel.create(newProduct);
+		} catch (err) {
+			throw new Error('Error adding product', err);
+		}
 	}
 
-	async update() {
+	async update(id, update, options) {
 		try {
-		} catch (e) {}
+			return await productsModel.findByIdAndUpdate(id, update, options);
+		} catch (err) {
+			throw new Error('update error', err);
+		}
 	}
 
-	async delete() {
+	async delete(id) {
 		try {
-		} catch (e) {}
+			return await productsModel.findByIdAndDelete(id);
+		} catch (err) {
+			throw new Error('delete error', err);
+		}
 	}
 }
 

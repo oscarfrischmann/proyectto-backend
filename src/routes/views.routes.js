@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 		data = await productsModel.find().lean();
 		res.render('index', { products: data });
 	} catch (err) {
-		res.render('index', { products: data });
+		res.status(404).send({ origin: 'render index', error: err });
 	}
 });
 
