@@ -11,28 +11,6 @@ const schema = new mongoose.Schema({
 	email: { type: String, required: true },
 	password_: { type: String, required: true },
 	role: { type: String, enum: ['user', 'premium', 'admin'], default: 'user' },
-	// role: { type: String, enum: ['Male', 'Female', 'Bigender'], default: 'Male' },
-	// grade: { type: Number, required: true },
-	// region: {
-	// 	type: String,
-	// 	enum: [
-	// 		'United States',
-	// 		'Sweden',
-	// 		'Indonesia',
-	// 		'Lithuania',
-	// 		'Poland',
-	// 		'China',
-	// 		'Netherlands',
-	// 		'Dominican Republic',
-	// 		'Greece',
-	// 		'Israel',
-	// 		'Egypt',
-	// 		'Russia',
-	// 		'Tanzania',
-	// 		'Thailand',
-	// 	],
-	// 	default: 'China',
-	// },
 });
 
 schema.plugin(mongoosePaginate);

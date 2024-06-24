@@ -32,7 +32,7 @@ router.get('/db/aggreg', async (req, res) => {
 router.get('/db/paginate/:role', async (req, res) => {
 	const role = req.params.role;
 	try {
-		const process = await usersModel.paginate({ role: role }, { limit: 50, page: 2 });
+		const process = await usersModel.paginate({}, { limit: 10, page: 2 });
 		res.status(200).send({ origin: 'get paginate', payload: process });
 	} catch (err) {
 		res.status(500).send({ origin: 'get paginate', payload: err });
